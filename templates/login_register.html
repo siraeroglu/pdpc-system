@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Detection and Counting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login_register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    <div class="background">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div id="modal-backdrop" class="modal-backdrop"></div>
+
+    <header>
+        <h1>People Detection</h1>
+
+            <!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    <div>
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
+        <div class="auth-buttons">
+      <button data-open-modal="login-modal">Login</button>
+      <button data-open-modal="register-modal">Register</button>
+    </div>
+    </header>
+
+
+    <section class="hero">
+        <h2>Welcome to People Detection</h2>
+        <p>Discover a system that helps detect and count people efficiently and accurately.</p>
+        <button data-open-modal="learn-more-modal">Learn More</button>
+    </section>
+    
+    <!-- Login Modal -->
+     <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2>Login</h2>
+        <button class="modal-close">&times;</button>
+      </header>
+
+      <section class="modal-body">
+        <form action="{{ url_for('home') }}" method="POST">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+
+          <button type="submit" name="login">Login</button>
+        </form>
+
+        <p style="margin-top:10px;">
+          <a href="#" data-open-modal="forgot-password-modal">Forgot Password?</a>
+        </p>
+      </section>
+    </div>
+  </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2>Register</h2>
+        <button class="modal-close">&times;</button>
+      </header>
+
+      <section class="modal-body">
+        <form action="{{ url_for('home') }}" method="POST">
+          <label for="register-username">Username:</label>
+          <input type="text" id="register-username" name="username" required>
+
+          <label for="register-password">Password:</label>
+          <input type="password" id="register-password" name="password" required>
+          <button type="submit" name="register">Register</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+
+   <div id="forgot-password-modal" class="modal">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2>Forgot Password</h2>
+        <button class="modal-close">&times;</button>
+      </header>
+
+      <section class="modal-body">
+        <form action="{{ url_for('forgot_password') }}" method="POST">
+          <label for="forgot-email">Registered Email:</label>
+          <input type="email" id="forgot-email" name="email" required>
+          <button type="submit">Send Reset Link</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <div id="learn-more-modal" class="modal">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2>Learn More About Our System</h2>
+        <button class="modal-close">&times;</button>
+      </header>
+
+      <section class="modal-body">
+        <p class="main-text">
+          Welcome to our PDPC system. The purpose of this system is to enable you
+          to detect and count live people or to detect and count people in photos
+          and videos you upload to the system.
+        </p>
+
+        <p class="small-text"><strong>USERS WHO CAN BENEFIT FROM OUR SYSTEM:</strong></p>
+        <ul class="benefit-list">
+          <li>Security personnel</li>
+          <li>Event organizers</li>
+          <li>Public transportation authorities</li>
+          <li>Students</li>
+          <li>Open to anyone who wants to use it for any purpose :)</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+     <footer>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+    <p>&copy;PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+  </footer>
+
+  <!-- ▼▼▼  Merkezî JS  ▼▼▼ -->
+  <script>
+    const backdrop = document.getElementById('modal-backdrop');
+  
+    function openModal(id) {
+    /* 1 ▪ Önce ekrandaki tüm açık modalları kapat */
+    document.querySelectorAll('.modal.open')
+            .forEach(m => m.classList.remove('open'));
+
+    /* 2 ▪ Sonra isteneni aç */
+    document.getElementById(id).classList.add('open');
+    backdrop.classList.add('open');
+  }
+
+
+    // Açılması istenen her buton
+    document.querySelectorAll('[data-open-modal]').forEach(btn => {
+      btn.addEventListener('click', () => openModal(btn.dataset.openModal));
+    });
+
+    // Kapama butonları
+    document.querySelectorAll('.modal-close').forEach(btn => {
+      btn.addEventListener('click', () => closeModal(btn.closest('.modal').id));
+    });
+
+    // Backdrop’a tıkla → hepsini kapa
+    backdrop.addEventListener('click', closeAllModals);
+
+    
+  function openModal(id) {
+    /* 1 ▪ Önce ekrandaki tüm açık modalları kapat */
+    document.querySelectorAll('.modal.open')
+            .forEach(m => m.classList.remove('open'));
+
+    /* 2 ▪ Sonra isteneni aç */
+    document.getElementById(id).classList.add('open');
+    backdrop.classList.add('open');
+  }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      backdrop.classList.remove('open');
+    }
+
+    function closeAllModals() {
+      document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open'));
+      backdrop.classList.remove('open');
+    }
+  </script>
+</body>
+</html>

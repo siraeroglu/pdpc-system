@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Stream</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/video_stream.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    <div class="video-container">
+        <img src="{{ url_for('video_feed', file_path=file_path) }}" alt="Video Stream">
+        <a href="{{ url_for('index') }}" class="back-button">← Back to Upload Page</a>
+    </div>
+    
+</body>
+</html>

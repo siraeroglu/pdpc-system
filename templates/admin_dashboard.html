@@ -1,0 +1,75 @@
+<!------------------------------------>
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    <div class="background">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <header>
+        <h1>Admin Dashboard</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </header>
+
+    <section>
+        <h2>Welcome, Admin!</h2>
+        <h3>Manage Users</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Premium Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ 'Yes' if user.is_premium else 'No' }}</td>
+                    
+                    <td class="actions">
+                        
+                            {% if user.premium_requests %}
+                                <a href="{{ url_for('view_receipt', user_id=user.id) }}" target="_blank" class="action-btn">View Receipt</a>
+                            {% endif %}
+
+                            <form action="{{ url_for('make_premium', user_id=user.id) }}" method="POST">
+                                
+                                <button type="submit" class="action-btn">Make Premium</button>
+                            </form>
+
+                            <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST">
+                                
+                                <button type="submit" class="action-btn">Delete User</button>
+                            </form>
+
+                            <a href="{{ url_for('user_history', user_id=user.id) }}"
+                              class="action-btn">View History</a>
+                            
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy; PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/user_home.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/payment.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="background">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  
+<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="profile-box">
+      {% for ext in ['jpg', 'jpeg', 'png'] %}
+        <img src="{{ url_for('static', filename='images/user_' ~ current_user.id ~ '.' ~ ext) }}?v={{ loop.index }}"
+             alt="Profile"
+             class="profile-pic"
+             onerror="this.style.display='none';">
+      {% endfor %}
+      <h2>{{ current_user.username }}</h2>
+      <p>{{ "Premium User" if current_user.is_premium else "Trial User" }}</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('user_home') }}">Dashboard</a>
+      <a href="{{ url_for('premium') }}">User Guide</a>
+      <a href="{{ url_for('my_history') }}">View History</a>
+      <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+      <a href="{{ url_for('payment') }}">Payment</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </aside>
+
+  
+    <h1>Make Payment and Generate Receipt</h1>
+    <p>Please enter your card details.</p>
+
+    <form action="{{ url_for('payment') }}" method="POST">
+      <label for="card_holder">Card Owner Full Name</label>
+      <input type="text" id="card_holder" name="card_holder" placeholder="Name Surname" required title="Enter your full name">
+
+      <label for="card_number">Credit Card Number</label>
+      <input type="text" id="card_number" name="card_number" placeholder="XXXXXXXXXXXXXXXX" required maxlength="16" pattern="\d{16}" inputmode="numeric" title="Enter 16 digit card number here">
+
+      <label for="expiry">Exp. Date</label>
+      <input type="month" id="expiry" name="expiry" required title="Enter your card Exp date">
+
+      <label for="cvv">CVV</label>
+      <input type="text" id="cvv" name="cvv" placeholder="XXX" required maxlength="3" pattern="\d{3}" title="Enter 3 digit CVV here">
+      
+      <label for="amount">Amount Payable (TL)</label>
+      <input list="amounts" id="amount" name="amount" placeholder="Please select or enter the amount" required title="Select Amount">
+<datalist id="amounts">
+  
+     <option value="1000"></datalist>
+
+
+      <button type="submit" id="payButon">Make Payment</button>
+    </form>
+
+
+
+
+                {% if not current_user.is_premium %}
+            <div class="upload-section">
+                <h3>Become Premium</h3>
+                <p>Upload your invoice to apply for premium membership. After upload your invoice admin will check and approve your premium request.</p>
+                <form action="{{ url_for('upload_invoice') }}" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="invoice" required>
+                    <button type="submit">Submit Invoice</button>
+                </form>
+            </div>
+            {% else %}
+            <div class="success-message">
+                <h3>You are already a Premium User!</h3>
+            </div>
+            {% endif %}
+        </div>
+
+
+        
+<script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        };
+        document.getElementById('amount').addEventListener('change', function() {
+    document.getElementById('payButon').disabled = !this.value;
+  });
+    </script>
+
+     <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy;PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+</body>
+</html>

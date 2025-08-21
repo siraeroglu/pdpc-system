@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_history.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    <div class="background">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <header>
+        <h1>User History</h1>
+        <a href="{{ url_for('admin_dashboard') }}">Back to Admin Dashboard</a>
+    </header>
+    <section>
+        <h1>History for {{ user.username }}</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Media Type</th>
+                    <th>File Path</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Preview</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for media in media_files %}
+                <tr>
+                    <td>{{ media.id }}</td>
+                    <td>{{ media.media_type }}</td>
+                    <td>{{ media.file_path }}</td>
+                    <td>{{ media.date }}</td>
+                    <td>{{ media.status }}</td>
+                    <td>
+                        {% if media.media_type == "photo" %}
+    <img src="{{ '/' + media.file_path }}" alt="Preview" width="100" />
+{% elif media.media_type == "video" %}
+    <video width="200" controls>
+        <source src="{{ '/' + media.file_path }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% endif %}
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy;PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+</body>
+</html>

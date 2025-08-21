@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Upload History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/my_history.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_home.css') }}"> <!-- sidebar CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    <!-- Background animation -->
+    <div class="background">
+        <div></div><div></div><div></div><div></div>
+    </div>
+
+     <!-- Toggle Button -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="profile-box">
+      {% for ext in ['jpg', 'jpeg', 'png'] %}
+        <img src="{{ url_for('static', filename='images/user_' ~ current_user.id ~ '.' ~ ext) }}?v={{ loop.index }}"
+             alt="Profile"
+             class="profile-pic"
+             onerror="this.style.display='none';">
+      {% endfor %}
+      <h2>{{ current_user.username }}</h2>
+      <p>{{ "Premium User" if current_user.is_premium else "Trial User" }}</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('user_home') }}">Dashboard</a>
+            <a href="{{ url_for('premium') }}">User Guide</a>
+            <a href="{{ url_for('my_history') }}">View History</a>
+            <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+            <a href="{{ url_for('payment') }}">Payment</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </aside>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <h1>My Upload History</h1>
+        
+        <br><br>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Media Type</th>
+                    <th>File Path</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Preview</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for media in media_files %}
+                <tr>
+                    <td>{{ media.id }}</td>
+                    <td>{{ media.media_type }}</td>
+                    <td>{{ media.file_path }}</td>
+                    <td>{{ media.date }}</td>
+                    <td>{{ media.status }}</td>
+                    <td>
+                       {% if media.media_type == "photo" %}
+    <img src="{{ '/' + media.file_path }}" alt="Image" width="100">
+{% elif media.media_type == "video" %}
+    <video width="200" controls>
+        <source src="{{ '/' + media.file_path }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% endif %}
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+    </script>
+    <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy;PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+</body>
+</html>

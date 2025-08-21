@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload_page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    <div class="background">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="container">
+        <h1>People Detection</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">Upload a video or image:</label>
+            <input type="file" id="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 40px;">
+       <form action="{{ url_for('start_camera', mobile=1) }}" method="get">
+    <button type="submit" style="padding:10px 20px;font-size:18px;">
+        Start Camera Detection
+    </button>
+</form>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+   <!-- Start IP Camera Detection BUTTON (opens modal) -->
+<button type="button" onclick="openModal()" style="padding: 10px 20px; font-size: 18px;">
+    Start IP Camera Detection
+</button>
+
+</div>
+    
+        <div class="actions">
+            <a href="/user_home">Go Back</a>
+        </div>
+    </div>
+    <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy; PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+    
+
+<div id="ipCameraModal" style="display:none;
+position:fixed;z-index:1000;left:0; top:0;width:100%;height:100%;overflow:auto;
+background-color:rgba(0,0,0,0.5);">
+
+  <div style="background-color:#fff; margin:15% auto; padding:20px;border:1px solid #888; width:400px; text-align:center;
+border-radius:14px;box-shadow:0 20px 40px rgba(0,0,0,.25);max-width:90%;">                             
+
+    <h2 style="font-size:1.4rem; color:#333; margin-bottom:18px;">
+      IP Camera Settings
+    </h2>
+
+    <form action="{{ url_for('start_ip_camera') }}" method="post"style="display:flex; flex-direction:column; align-items:center;">
+
+      <input type="text" name="ip" placeholder="IP Address" required style="width:90%; margin:6px 0; padding:10px;
+      border:1px solid #ccc; border-radius:6px;"><br>
+
+      <input type="text" name="port" placeholder="Port" required style="width:90%; margin:6px 0; padding:10px;
+        border:1px solid #ccc; border-radius:6px;"><br>
+
+      <input type="text" name="username" placeholder="Username" required style="width:90%; margin:6px 0; padding:10px;
+        border:1px solid #ccc; border-radius:6px;"><br>
+
+      <input type="password" name="password" placeholder="Password" required style="width:90%; margin:6px 0 12px; padding:10px;
+        border:1px solid #ccc; border-radius:6px;"><br>
+
+      <button type="submit"style="margin:6px 0 4px; padding:10px 0; width:90%; background:rebeccapurple; color:#fff; border:none;
+        border-radius:6px; cursor:pointer;transition:background .2s;">Start</button>
+
+      <button type="button" onclick="closeModal()" style="margin:4px 0 0; padding:10px 0; width:90%;background:#b0bec5; color:#000;
+       border:none; border-radius:6px; cursor:pointer;transition:background .2s;">Cancel</button>
+    </form>
+  </div>
+</div>
+
+</div>
+<script>
+function openModal() {
+    document.getElementById("ipCameraModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("ipCameraModal").style.display = "none";
+}
+</script>
+
+</body>
+</html>

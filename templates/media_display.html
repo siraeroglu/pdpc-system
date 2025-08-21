@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Media Display</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/media_display.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    <div class="media-container">
+        {% if media_type == 'photo' %}
+            <img src="{{ url_for('processed_image') }}?file_path={{ file_path }}">
+        {% elif media_type == 'video' %}
+            <video controls autoplay>
+                <source src="{{ url_for('static', filename=file_path) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        {% endif %}
+        <a href="{{ url_for('index') }}" class="back-button">← Back to Upload Page</a>
+    </div>
+    <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy;PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+</body>
+</html>

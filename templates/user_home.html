@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- BOOTSTRAP 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- BOOTSTRAP 5 JS (kapanabilir alert için şarttır) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 50%;">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show text-center" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+    <div class="background">
+        <div></div><div></div><div></div><div></div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="profile-box">
+            {% for ext in ['jpg', 'jpeg', 'png'] %}
+                <img src="{{ url_for('static', filename='images/user_' ~ current_user.id ~ '.' ~ ext) }}?v={{ loop.index }}"
+                     alt="Profile"
+                     class="profile-pic"
+                     onerror="this.style.display='none';">
+            {% endfor %}
+            <h2>{{ current_user.username }}</h2>
+            <p>{{ "Premium User" if current_user.is_premium else "Trial User" }}</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('user_home') }}">Dashboard</a>
+            <a href="{{ url_for('premium') }}">User Guide</a>
+            <a href="{{ url_for('my_history') }}">View History</a>
+            <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+            <a href="{{ url_for('payment') }}">Payment</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Üst Menü ve Hoşgeldiniz -->
+<div class="top-bar">
+    <div class="left-bar">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <div class="center-box">
+        <div class="welcome-wrapper">
+            <p>Welcome, {{ current_user.username }}</p>
+        </div>
+
+        <!-- READY TO UPLOAD KISMI -->
+        <div class="content">
+            <h2>Please press the Let's Start button to start the detection and counting process </h2>
+            <form action="/index" method="get">
+                <button type="submit">Let's Start</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <!-- Sidebar Açma Scripti -->
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+    </script>
+    <script>
+  setTimeout(function() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+      alert.classList.remove('show');
+      alert.classList.add('hide');
+    });
+  }, 3000); // 3 saniye
+</script>
+
+    <!-- Footer -->
+    <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy; PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+</body>
+</html>

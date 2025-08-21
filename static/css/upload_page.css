@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+.background div {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5), rgba(169, 169, 169, 0.1));
+    border-radius: 50%;
+    animation: move 15s infinite linear;
+    opacity: 0.8;
+}
+.background div:nth-child(1) { top: 10%; left: 20%; animation-duration: 20s; }
+.background div:nth-child(2) { top: 50%; left: 60%; animation-duration: 25s; }
+.background div:nth-child(3) { top: 30%; left: 40%; animation-duration: 18s; }
+.background div:nth-child(4) { top: 70%; left: 10%; animation-duration: 22s; }
+@keyframes move {
+    0% { transform: translateX(0) translateY(0) scale(1); }
+    50% { transform: translateX(50px) translateY(30px) scale(1.2); }
+    100% { transform: translateX(-50px) translateY(-30px) scale(1); }
+}
+.container {
+    background: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+h1 {
+    color: #e6e6e6;
+    margin-bottom: 20px;
+}
+label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #ccc;
+}
+input[type="file"] {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+button {
+    background:#414141;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+button:hover {
+    background:#666;
+}
+a {
+    margin-top: 20px;
+    display: inline-block;
+    color: #414141;
+    text-decoration: none;
+    font-size: 16px;
+}
+a:hover {
+    text-decoration: underline;
+}
+.actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.actions a {
+    width: 48%;
+    padding: 10px;
+    background:#e22828;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.actions a:hover {
+    background:#666;
+}

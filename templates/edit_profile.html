@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_profile.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/user_home.css') }}"> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+ 
+</head>
+<body>
+  <div class="background">
+    <div></div><div></div><div></div><div></div>
+  </div>
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+  <aside class="sidebar" id="sidebar">
+    <div class="profile-box">
+      {% for ext in ['jpg', 'jpeg', 'png'] %}
+        <img src="{{ url_for('static', filename='images/user_' ~ current_user.id ~ '.' ~ ext) }}?v={{ loop.index }}"
+             alt="Profile"
+             class="profile-pic"
+             onerror="this.style.display='none';">
+      {% endfor %}
+      <h2>{{ current_user.username }}</h2>
+      <p>{{ "Premium User" if current_user.is_premium else "Trial User" }}</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('user_home') }}">Dashboard</a>
+            <a href="{{ url_for('premium') }}">User Guide</a>
+            <a href="{{ url_for('my_history') }}">View History</a>
+            <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+            <a href="{{ url_for('payment') }}">Payment</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </aside>
+  <div class="main-content">
+    <header>
+      <h1>Edit Your Profile</h1>
+    </header>
+
+    <div class="container">
+
+      <div style="text-align: center;">
+        {% for ext in ['jpg', 'jpeg', 'png'] %}
+          <img src="{{ url_for('static', filename='images/user_' ~ current_user.id ~ '.' ~ ext) }}?v={{ loop.index }}"
+               alt="Profile Photo"
+               class="profile-image"
+               onerror="this.style.display='none';">
+        {% endfor %}
+      </div>
+
+
+      <form method="POST" enctype="multipart/form-data">
+        <label for="username">Username</label>
+        <input type="text" name="username" value="{{ current_user.username }}" required>
+
+        <label for="profile_pic">Change Profile Picture</label>
+        <input type="file" id="profile_pic" name="profile_pic" accept="image/*">
+
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+  </script>
+  <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy;PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+</body>
+</html>

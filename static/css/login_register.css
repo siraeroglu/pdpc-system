@@ -1,0 +1,210 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Arial, sans-serif;
+    background: #000;
+    overflow-x: hidden;
+    height: 100vh;
+}
+header {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header h1 {
+    font-size: 24px;
+}
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+.auth-buttons button {
+    padding: 10px 20px;
+    background: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.auth-buttons button:hover {
+    background: #666;
+}
+.hero {
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    min-height: 100vh;
+}
+.hero h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+.hero p {
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+.hero button {
+    padding: 10px 20px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.hero button:hover {
+    background-color: #666;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+/* MODALLARIMIZ BURDA */
+.background { position:absolute; inset:0; overflow:hidden; z-index:-1; }
+.background div {
+  position:absolute; width:300px; height:300px; border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.5),rgba(169,169,169,.1));
+  animation:move 15s linear infinite; opacity:.8;
+}
+.background div:nth-child(1){ top:10%; left:20%; animation-duration:20s; }
+.background div:nth-child(2){ top:50%; left:60%; animation-duration:25s; }
+.background div:nth-child(3){ top:30%; left:40%; animation-duration:18s; }
+.background div:nth-child(4){ top:70%; left:10%; animation-duration:22s; }
+@keyframes move{
+  0%{ transform:translate(0,0)   scale(1); }
+ 50%{ transform:translate(50px,30px) scale(1.2); }
+100%{ transform:translate(-50px,-30px) scale(1); }
+}
+
+
+.alert{
+  position:fixed; top:10px; left:50%; transform:translateX(-50%);
+  z-index:1000; padding:10px 20px; border-radius:5px;
+  font-size:14px; text-align:center; width:90%; max-width:400px;
+}
+.alert-success { background:#d4edda; color:#155724; border:1px solid #c3e6cb; }
+.alert-danger  { background:#f8d7da; color:#721c24; border:1px solid #f5c6cb; }
+.alert-warning { background:#fff3cd; color:#856404; border:1px solid #ffeeba; }
+
+
+.modal{
+  position:fixed; 
+  top:50%;
+   left:50%;
+    width:90%;
+     max-width:520px;
+  transform:translate(-50%,-50%) scale(.92);
+  opacity:0;
+   visibility:hidden; transition:all .3s ease;
+  z-index:2001; 
+}
+.modal.open{
+  opacity:1; visibility:visible; transform:translate(-50%,-50%) scale(1);
+}
+
+
+.modal-backdrop{
+  position:fixed;
+   inset:0;
+    background:rgba(0,0,0,.6);
+  backdrop-filter:blur(2px);
+  opacity:0;
+   visibility:hidden; 
+   transition:all .3s ease;
+  z-index:2000;
+}
+.modal-backdrop.open{ opacity:1; visibility:visible; }
+
+
+.modal-content{
+  background:#fff;
+   border-radius:10px; 
+   overflow:hidden;
+  box-shadow:0 32px 64px rgba(0,0,0,.35);
+}
+
+
+.modal-header{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:18px 24px;
+  background:linear-gradient(135deg,#1e1e1e,#545454);
+  color:#fff;
+}
+.modal-header h2{ font-size:1.4rem; margin:0; }
+
+
+.modal-close{
+width:36px; 
+height:36px; 
+border:none;
+border-radius:30%;
+background:rgba(255,255,255,.18);
+color:#fff;
+font-size:1.2rem;
+cursor:pointer;
+transition:background .2s;
+display:flex; 
+align-items:center; 
+justify-content:center;
+}
+.modal-close:hover{ background:rebeccapurple; }
+
+
+.modal-body{
+  padding:28px 24px 32px;
+  color:#333; line-height:1.55;
+  max-height:70vh; overflow-y:auto;
+}
+
+
+.modal-body label  { display:block; margin:10px 0 4px; font-weight:600; }
+.modal-body input  {
+  width:100%; 
+  padding:10px; 
+  margin-bottom:14px;
+  border:1px solid #ddd; 
+  border-radius:6px;
+}
+.modal-body button{
+  width:100%;
+   padding:10px;
+  background: grey; 
+  color:#fff;
+  border:none; 
+  border-radius:6px;
+  font-size:16px;
+   cursor:pointer;
+}
+.modal-body button:hover{ background: rebeccapurple; }
+
+
+.main-text { font-size:1rem;
+    margin-bottom:1.2rem; }
+.small-text{ font-size:.9rem; 
+    color:rebeccapurple; 
+    margin:.4rem 0 .6rem; 
+    font-weight:600; 
+    text-transform:uppercase; }
+
+.benefit-list{ padding-left:1.3rem; }
+.benefit-list li{ margin-bottom:6px; position:relative; }
+
+
+
+@media(max-width:420px){
+  .modal-header h2{ font-size:1.15rem; }
+  .modal-body{ padding:22px 18px 28px; }
+}

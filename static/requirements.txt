@@ -1,0 +1,9 @@
+opencv-python-headless
+ultralytics
+numpy
+flask
+flask-sqlalchemy
+psycopg2
+flask-login
+werkzeug
+opencv-python

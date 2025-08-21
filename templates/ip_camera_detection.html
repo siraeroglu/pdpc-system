@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IP Kamera Görüntüsü</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/camera.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+
+    <!-- Arka plan animasyonu -->
+    <div class="background">
+        <div></div><div></div><div></div>
+    </div>
+
+    <!-- Üst bar -->
+    <div class="top-bar">
+        <div class="left-bar">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        </div>
+        <div class="center-box">
+            <div class="welcome-wrapper">IP Camera Detection</div>
+        </div>
+    </div>
+
+    <!-- Ana içerik -->
+    <div class="content">
+        <div class="video-container" style="margin-top: 40px;">
+            <img src="{{ url_for('ip_camera_feed') }}" alt="Kamera Görüntüsü" style="max-width:100%; border-radius:10px; border:1px solid #666;">
+        </div>
+        <br>
+        <form action="{{ url_for('index') }}" method="get">
+            <button type="submit">Back to Upload Page</button>
+        </form>
+        <br>
+        
+    </div>
+    <footer>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+        <p>&copy; PEOPLE DETECTION & PEOPLE COUNTING SYSTEM by ŞZZM</p>
+    </footer>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="profile-box">
+            <img src="{{ url_for('static', filename='images/default-profile.png') }}" alt="profile" class="profile-pic">
+            <h2>{{ current_user.name }}</h2>
+            <p>{{ current_user.email }}</p>
+        </div>
+        <div class="sidebar-nav">
+            <a href="{{ url_for('user_home') }}">Dashboard</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+   
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+
+</body>
+</html>

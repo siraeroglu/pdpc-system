@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Camera People Detection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Ortak stiller -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/camera.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+
+<!-- Arka plan animasyonu -->
+<div class="background"><div></div><div></div><div></div></div>
+
+<!-- sidebar aç/kapat -->
+<button class="sidebar-toggle"
+        onclick="document.querySelector('.sidebar').classList.toggle('active')">☰</button>
+
+<!-- Ana içerik -->
+<div class="top-bar">
+  <div class="center-box">
+    <div class="welcome-wrapper">Live People Count from Camera</div>
+
+    <div class="content">
+      <!-- Sunucu (OpenCV) akışı -->
+      <img id="serverFeed" src="{{ url_for('camera_feed') }}"
+           style="border:4px solid #fff;border-radius:10px;max-width:100%;height:auto">
+
+      <!-- Telefon,yerel kamera  -->
+      <video id="mobilePreview" autoplay muted playsinline
+             style="display:none;border:4px solid #fff;border-radius:10px;max-width:100%;height:auto"></video>
+
+      <!-- Kamerayı başlat düğmesi -->
+      <button id="startCam" style="margin-top:20px;">Start</button>
+
+      <!-- Upload sayfasına geri -->
+      <form action="{{ url_for('index') }}" method="get" style="margin-top:20px;">
+        <button type="submit">Back to Upload Page</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="profile-box">
+    <img src="{{ current_user.profile_image }}" class="profile-pic" alt="profile">
+    <h2>{{ current_user.username }}</h2>
+    <p>ID: {{ current_user.user_id }}</p>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </nav>
+</div>
+
+<footer>
+  <p>&copy; PEOPLE DETECTION &amp; PEOPLE COUNTING SYSTEM by ŞZZM</p>
+</footer>
+
+<!-- Kamera kontrol  -->
+<script>
+  const btn   = document.getElementById('startCam');
+  const video = document.getElementById('mobilePreview');
+  const img   = document.getElementById('serverFeed');
+  const serverURL = img.getAttribute('src');   // Sunucu akış URL'i
+
+  async function startMobileCam () {
+    try {
+      img.removeAttribute('src');                 // OpenCV kamerayı bırak
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal:'environment' } },
+        audio: false
+      });
+      video.srcObject   = stream;
+      video.style.display = 'block';              // yerel kamerayı göster
+      img.style.display   = 'none';               // sunucu akışını gizle
+      btn.style.display   = 'none';               // düğmeyi gizle
+    } catch (err) {
+      alert(`Kamera izni alınamadı (${err.name}): ${err.message}`);
+      console.error(err);
+      img.setAttribute('src', serverURL);         // başarısızsa akışı geri yükle
+    }
+  }
+
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    startMobileCam();
+  });
+</script>
+</body>
+</html>
